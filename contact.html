@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Lifestyle + AI</title>
+  <meta name="description" content="Contact Lifestyle + AI for software development projects." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <noscript><style>.page-loader{display:none !important;} body{overflow:auto !important;}</style></noscript>
+</head>
+<body class="is-loading">
+  <div class="page-loader" data-loader>
+    <p class="loader-mark">Lifestyle <span>+ AI</span></p>
+  </div>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <div class="site-shell">
+    <header class="site-header">
+      <a href="index.html" class="logo">Lifestyle <span>+ AI</span></a>
+      <button class="menu-btn" aria-label="Open full menu" aria-expanded="false" aria-controls="menu-panel">Menu</button>
+      <nav class="site-nav" data-nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html" class="active">Contact</a>
+      </nav>
+    </header>
+
+    <main class="page reveal">
+      <p class="eyebrow">Contact Us</p>
+      <h1>Tell us what you're building.</h1>
+      <p>Share your project details and timeline. We’ll respond with next steps.</p>
+
+      <form class="contact-form" action="#" method="post">
+        <label>
+          Name
+          <input type="text" name="name" placeholder="Your name" required />
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" placeholder="you@company.com" required />
+        </label>
+        <label>
+          Project Brief
+          <textarea name="message" rows="6" placeholder="Describe your project goals" required></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </form>
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Lifestyle + AI</p>
+    </footer>
+  </div>
+
+  <div class="menu-panel" id="menu-panel" data-menu-panel aria-hidden="true">
+    <button class="menu-panel-backdrop" aria-label="Close menu" data-menu-close></button>
+    <aside class="menu-drawer" aria-label="Full site menu">
+      <p class="menu-eyebrow">Navigation</p>
+      <button class="menu-close" aria-label="Close menu" data-menu-close>Close</button>
+      <div class="menu-grid">
+        <div class="menu-column">
+          <a href="index.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="projects.html">Projects</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="menu-column">
+          <a href="projects.html#saas">SaaS Product</a>
+          <a href="projects.html#ecommerce">E-commerce Build</a>
+          <a href="projects.html#internal">Internal Tooling</a>
+          <a href="about.html#workflow">How We Work</a>
+          <a href="contact.html#brief">Project Brief</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="cursor-ring" data-cursor-ring></div>
+  <div class="cursor-dot" data-cursor-dot></div>
+
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects | Lifestyle + AI</title>
+  <meta name="description" content="Explore selected software projects by Lifestyle + AI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <noscript><style>.page-loader{display:none !important;} body{overflow:auto !important;}</style></noscript>
+</head>
+<body class="is-loading">
+  <div class="page-loader" data-loader>
+    <p class="loader-mark">Lifestyle <span>+ AI</span></p>
+  </div>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <div class="site-shell">
+    <header class="site-header">
+      <a href="index.html" class="logo">Lifestyle <span>+ AI</span></a>
+      <button class="menu-btn" aria-label="Open full menu" aria-expanded="false" aria-controls="menu-panel">Menu</button>
+      <nav class="site-nav" data-nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html" class="active">Projects</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main class="page reveal">
+      <p class="eyebrow">Projects</p>
+      <h1>Selected work from our current portfolio.</h1>
+      <p>We currently showcase three products that reflect our range and delivery style.</p>
+
+      <section class="projects-grid">
+        <article class="project-card">
+          <p class="tag">SaaS Platform</p>
+          <h2>FlowPilot</h2>
+          <p>A workflow automation tool for small operations teams, featuring role-based dashboards and analytics.</p>
+        </article>
+        <article class="project-card">
+          <p class="tag">E-commerce</p>
+          <h2>Threadline Storefront</h2>
+          <p>A high-speed storefront with modern checkout UX and inventory sync integrations.</p>
+        </article>
+        <article class="project-card">
+          <p class="tag">Internal Tooling</p>
+          <h2>OpsConsole</h2>
+          <p>An internal management suite for approvals, reporting, and cross-team operational visibility.</p>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Lifestyle + AI</p>
+    </footer>
+  </div>
+
+  <div class="menu-panel" id="menu-panel" data-menu-panel aria-hidden="true">
+    <button class="menu-panel-backdrop" aria-label="Close menu" data-menu-close></button>
+    <aside class="menu-drawer" aria-label="Full site menu">
+      <p class="menu-eyebrow">Navigation</p>
+      <button class="menu-close" aria-label="Close menu" data-menu-close>Close</button>
+      <div class="menu-grid">
+        <div class="menu-column">
+          <a href="index.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="projects.html">Projects</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="menu-column">
+          <a href="projects.html#saas">SaaS Product</a>
+          <a href="projects.html#ecommerce">E-commerce Build</a>
+          <a href="projects.html#internal">Internal Tooling</a>
+          <a href="about.html#workflow">How We Work</a>
+          <a href="contact.html#brief">Project Brief</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="cursor-ring" data-cursor-ring></div>
+  <div class="cursor-dot" data-cursor-dot></div>
+
+  <script src="main.js"></script>
+</body>
+</html>
