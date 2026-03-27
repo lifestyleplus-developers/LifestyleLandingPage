@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": {
+    "content-writing": {
+      "source": "eyadsibai/ltk",
+      "sourceType": "github",
+      "computedHash": "2166c8b114e1fb9e8bf577cba02fe8b168978efbc5dfd86276288fd93d55d317"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "computedHash": "0a413bf988d06481f69bb81df2070741c3ba12dd9f1be2706d57f259c905992d"
+    }
+  }
+}
