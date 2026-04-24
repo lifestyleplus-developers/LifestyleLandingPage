@@ -2,19 +2,155 @@
 
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+const GREETINGS = [
+  'Hello',
+  'السلام علیکم',
+  'नमस्ते',
+  'কেমন আছেন',
+  'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ',
+  'નમસ્તે',
+  'নমস্কার',
+  'নমস্কাৰ',
+  'ꯈꯨꯔꯨꯝꯖꯔꯤ',
+  'ନମସ୍କାର',
+  'வணக்கம்',
+  'నమస్కారం',
+  'ನಮಸ್ಕಾರ',
+  'നമസ്കാരം',
+];
+
+const GREETING_STEP_MS = 150;
+const LOGO_HOLD_MS = 420;
+const EXIT_MS = 520;
 
 export default function SiteFrame({ children }) {
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
+  const [loaderPhase, setLoaderPhase] = useState('greetings');
+  const [greetingIndex, setGreetingIndex] = useState(0);
+  const loaderPathRef = useRef(null);
+  const finishRef = useRef(() => {});
+
+  const loaderCurve = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return 'M0 0 L0 0 L0 0 Q0 0 0 0 L0 0';
+    }
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    return `M0 0 L${width} 0 L${width} ${height} Q${width / 2} ${height + 300} 0 ${height} L0 0`;
+  }, [loading]);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setLoading(false), 520);
-    return () => window.clearTimeout(timer);
+    finishRef.current = () => {
+      setLoading(false);
+      window.setTimeout(() => {
+        document.body.classList.remove('is-loading');
+      }, EXIT_MS);
+    };
   }, []);
 
   useEffect(() => {
     document.body.classList.toggle('is-loading', loading);
+  }, [loading]);
+
+  useEffect(() => {
+    if (!loading) {
+      return;
+    }
+
+    document.body.classList.add('is-loading');
+    let stepTimer;
+    let logoTimer;
+    let exitTimer;
+
+    stepTimer = window.setInterval(() => {
+      setGreetingIndex((current) => {
+        if (current >= GREETINGS.length - 1) {
+          window.clearInterval(stepTimer);
+          logoTimer = window.setTimeout(() => {
+            setLoaderPhase('logo');
+            exitTimer = window.setTimeout(() => {
+              setLoaderPhase('exit');
+              finishRef.current();
+            }, LOGO_HOLD_MS);
+          }, GREETING_STEP_MS);
+          return current;
+        }
+
+        return current + 1;
+      });
+    }, GREETING_STEP_MS);
+
+    return () => {
+      window.clearInterval(stepTimer);
+      window.clearTimeout(logoTimer);
+      window.clearTimeout(exitTimer);
+    };
+  }, [loading]);
+
+  useEffect(() => {
+    if (!loading || loaderPhase !== 'exit') {
+      return;
+    }
+
+    const path = loaderPathRef.current;
+    if (!path) {
+      return;
+    }
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const baseCurve = `M0 0 L${width} 0 L${width} ${height} Q${width / 2} ${height} 0 ${height} L0 0`;
+    const start = performance.now();
+    let rafId = 0;
+
+    const animate = (now) => {
+      const progress = Math.min((now - start) / 380, 1);
+      const eased = 1 - (1 - progress) ** 3;
+      const controlY = height + 300 * (1 - eased);
+      path.setAttribute('d', `M0 0 L${width} 0 L${width} ${height} Q${width / 2} ${controlY} 0 ${height} L0 0`);
+
+      if (progress < 1) {
+        rafId = window.requestAnimationFrame(animate);
+      } else {
+        path.setAttribute('d', baseCurve);
+      }
+    };
+
+    const kickoff = window.setTimeout(() => {
+      rafId = window.requestAnimationFrame(animate);
+    }, 80);
+
+    return () => {
+      window.clearTimeout(kickoff);
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+    };
+  }, [loaderPhase, loading]);
+
+  useEffect(() => {
+    if (!loading) {
+      return;
+    }
+
+    const syncCurve = () => {
+      const path = loaderPathRef.current;
+      if (!path) {
+        return;
+      }
+
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      path.setAttribute('d', `M0 0 L${width} 0 L${width} ${height} Q${width / 2} ${height + 300} 0 ${height} L0 0`);
+    };
+
+    syncCurve();
+    window.addEventListener('resize', syncCurve, { passive: true });
+    return () => window.removeEventListener('resize', syncCurve);
   }, [loading]);
 
   useEffect(() => {
@@ -137,18 +273,29 @@ export default function SiteFrame({ children }) {
 
   return (
     <>
-      <div className={`page-loader ${loading ? '' : 'hidden'}`} aria-hidden={!loading}>
-        <div className="loader-brand">
-          <Image
-            src="/lifestyle logo.svg"
-            alt="Lifestyle + AI"
-            width={320}
-            height={86}
-            className="loader-logo"
-            priority
-          />
+      {loading ? (
+        <div className={`page-loader page-loader-${loaderPhase}`} aria-hidden={!loading}>
+          <div className="loader-copy-wrap">
+            {loaderPhase === 'logo' || loaderPhase === 'exit' ? (
+              <div className="loader-brand">
+                <Image
+                  src="/lifestyle logo.svg"
+                  alt="Lifestyle + AI"
+                  width={320}
+                  height={86}
+                  className="loader-logo"
+                  priority
+                />
+              </div>
+            ) : (
+              <p className="loader-copy">{GREETINGS[greetingIndex]}</p>
+            )}
+          </div>
+          <svg className="loader-curve" aria-hidden="true">
+            <path ref={loaderPathRef} d={loaderCurve} />
+          </svg>
         </div>
-      </div>
+      ) : null}
 
       <div className={`site-shell ${loading ? 'site-shell-loading' : ''}`}>
         {children}

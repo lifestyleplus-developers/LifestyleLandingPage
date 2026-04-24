@@ -5,15 +5,7 @@ export default function HomePage() {
   return (
     <main className="story">
       <section className="story-hero reveal">
-        <p className="eyebrow">It starts with an idea </p>
-        <h1>Turn your ideas into software</h1>
-        <p className="hero-copy">
-          We help founders go from idea → real product with a focused senior team and a clear path to launch.
-        </p>
-        <div className="hero-cta">
-          <a href="mailto:mohammedmustafaja@gmail.com" className="btn btn-primary">Start a Project</a>
-        </div>
-        <div className="story-media">
+        <div className="story-media" aria-hidden="true">
           <Image
             src="/hero.png"
             alt="Team collaborating around a whiteboard"
@@ -23,7 +15,30 @@ export default function HomePage() {
             style={{ objectFit: 'cover' }}
           />
         </div>
-        <p className="transition-line">Every idea starts somewhere. The story begins with one clear decision.</p>
+        <div className="hero-overlay"></div>
+        <div className="hero-content">
+          <p className="eyebrow">It starts with an idea</p>
+          <h1>
+            Turn your{" "}
+            <span className="word-flip" aria-label="ideas">
+              <span className="word-flip-track" aria-hidden="true">
+                <span>ideas</span>
+                <span>concept</span>
+                <span>model</span>
+                <span>thoughts</span>
+                <span>ideas</span>
+              </span>
+            </span>
+            <span className="hero-line-break">into software</span>
+          </h1>
+          <p className="hero-copy">
+            We help founders go from vision to reality with a focused senior team and a clear path to launch.
+          </p>
+          <div className="hero-cta">
+            <a href="mailto:mohammedmustafaja@gmail.com" className="btn btn-primary btn-hero">Start a Project</a>
+          </div>
+        </div>
+        <p className="transition-line">Clarity, speed, and real product work from day one.</p>
       </section>
 
       <section className="story-clients reveal">
