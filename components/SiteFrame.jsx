@@ -297,6 +297,27 @@ export default function SiteFrame({ children }) {
         </div>
       ) : null}
 
+      <header className="site-header-bar">
+        <nav className="site-header-nav" aria-label="Primary">
+          <div className="site-header-nav-left">
+            <a href="#projects">Projects</a>
+            <a href="#about">About</a>
+          </div>
+          <a href="#about" className="site-header-brand" aria-label="Lifestyle + AI">
+            <Image
+              src="/Lifestyle logo light version (Email Header).png"
+              alt="Lifestyle + AI"
+              width={200}
+              height={52}
+              className="site-header-brand-image"
+            />
+          </a>
+          <div className="site-header-nav-right">
+            <a href="#contact">Contact</a>
+          </div>
+        </nav>
+      </header>
+
       <div className={`site-shell ${loading ? 'site-shell-loading' : ''}`}>
         {children}
       </div>
