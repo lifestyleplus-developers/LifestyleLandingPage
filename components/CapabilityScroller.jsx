@@ -43,24 +43,28 @@ export default function CapabilityScroller() {
       const exit = clamp((progress - 0.88) / 0.12, 0, 1);
       const introEased = easeOutCubic(intro);
       const exitEased = easeOutCubic(exit);
+      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+      const isCompact = window.matchMedia('(max-width: 760px)').matches;
+      const startOffset = isCompact ? viewportHeight * 0.18 : viewportHeight * 0.28;
+      const exitOffset = isCompact ? viewportHeight * 0.06 : viewportHeight * 0.1;
 
-      let translateY = 112;
+      let translateY = startOffset;
       let scale = 0.95;
       let opacity = 0;
 
       if (progress <= 1) {
-        translateY = mix(112, 0, introEased);
+        translateY = mix(startOffset, 0, introEased);
         scale = mix(0.95, 1, introEased);
         opacity = 1;
       }
 
       if (exit > 0) {
-        translateY = mix(0, -15, exitEased);
+        translateY = mix(0, -exitOffset, exitEased);
         scale = mix(1, 0.99, exitEased);
         opacity = 1;
       }
 
-      shell.style.transform = `translate3d(-50%, ${translateY}%, 0) scale(${scale})`;
+      shell.style.transform = `translate3d(-50%, ${translateY}px, 0) scale(${scale})`;
       shell.style.opacity = String(opacity);
       rafId = 0;
     };

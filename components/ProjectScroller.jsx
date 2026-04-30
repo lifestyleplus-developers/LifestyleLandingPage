@@ -60,6 +60,10 @@ export default function ProjectScroller() {
       const scrollable = Math.max(rect.height - window.innerHeight, 1);
       const progress = clamp(-rect.top / scrollable, 0, 1);
       const segmentSize = 1 / PROJECTS.length;
+      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+      const isCompact = window.matchMedia('(max-width: 760px)').matches;
+      const startOffset = isCompact ? viewportHeight * 0.22 : viewportHeight * 0.34;
+      const exitOffset = isCompact ? viewportHeight * 0.08 : viewportHeight * 0.12;
 
       cardRefs.current.forEach((card, index) => {
         if (!card) return;
@@ -72,29 +76,29 @@ export default function ProjectScroller() {
         const introEased = easeOutCubic(intro);
         const exitEased = easeOutCubic(exit);
 
-        let translateY = 112;
+        let translateY = startOffset;
         let scale = 0.95;
         let opacity = 0;
 
         if (progress >= stepStart && progress <= stepEnd) {
-          translateY = mix(112, 0, introEased);
+          translateY = mix(startOffset, 0, introEased);
           scale = mix(0.95, 1, introEased);
           opacity = 1;
         }
 
         if (exit > 0 && progress <= stepEnd) {
-          translateY = mix(0, -15, exitEased);
+          translateY = mix(0, -exitOffset, exitEased);
           scale = mix(1, 0.99, exitEased);
           opacity = 1;
         }
 
         if (progress > stepEnd) {
-          translateY = -120;
+          translateY = -startOffset;
           scale = 1;
           opacity = 0;
         }
 
-        card.style.transform = `translate3d(-50%, ${translateY}%, 0) scale(${scale})`;
+        card.style.transform = `translate3d(-50%, ${translateY}px, 0) scale(${scale})`;
         card.style.opacity = String(opacity);
         card.style.zIndex = String(index + 2);
       });

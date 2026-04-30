@@ -467,7 +467,7 @@ body.is-loading {
 .project-scroll-sticky {
   position: sticky;
   top: 0;
-  min-height: 100vh;
+  min-height: 100svh;
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -502,17 +502,20 @@ body.is-loading {
   position: relative;
   z-index: 2;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100svh;
   pointer-events: none;
 }
 
 .project-scroll-card {
   position: absolute;
   left: 50%;
-  bottom: 7vh;
-  transform: translate3d(-50%, 130%, 0) scale(0.92);
+  bottom: 7svh;
+  transform: translate3d(-50%, 34svh, 0) scale(0.92);
   opacity: 0;
   will-change: transform, opacity;
+  display: grid;
+  justify-items: center;
+  gap: 1.4rem;
 }
 
 .project-scroll-frame {
@@ -540,9 +543,7 @@ body.is-loading {
 .project-scroll-copy-box {
   display: grid;
   gap: 0.7rem;
-  position: absolute;
-  left: 50%;
-  bottom: 3vh;
+  position: relative;
   width: min(520px, 42vw);
   padding: 1.5rem 1.5rem 1.65rem;
   border: 1px solid rgba(255, 255, 255, 0.72);
@@ -555,7 +556,7 @@ body.is-loading {
     0 32px 80px -34px rgba(0, 0, 0, 0.6),
     0 60px 120px -64px rgba(0, 0, 0, 0.72);
   text-align: center;
-  transform: translateX(-50%) perspective(1200px) rotateX(8deg) translateZ(0);
+  transform: perspective(1200px) rotateX(8deg) translateZ(0);
   transform-style: preserve-3d;
   backdrop-filter: blur(6px);
 }
@@ -705,7 +706,7 @@ body.is-loading {
 .capability-scroll-sticky {
   position: sticky;
   top: 0;
-  min-height: 100vh;
+  min-height: 100svh;
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -750,16 +751,16 @@ body.is-loading {
   position: relative;
   z-index: 2;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100svh;
   pointer-events: none;
 }
 
 .capability-scroll-shell {
   position: absolute;
   left: 50%;
-  bottom: 22vh;
+  bottom: 22svh;
   width: 100%;
-  transform: translate3d(-50%, 130%, 0) scale(0.92);
+  transform: translate3d(-50%, 28svh, 0) scale(0.92);
   opacity: 0;
   will-change: transform, opacity;
   pointer-events: auto;
@@ -822,7 +823,7 @@ body.is-loading {
 .member-sticky {
   position: sticky;
   top: 0;
-  min-height: 100vh;
+  min-height: 100svh;
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -858,7 +859,7 @@ body.is-loading {
   position: relative;
   z-index: 2;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100svh;
   pointer-events: none;
   perspective: 1800px;
 }
@@ -866,8 +867,8 @@ body.is-loading {
 .member-scroll-card {
   position: absolute;
   left: 50%;
-  bottom: 7vh;
-  transform: translate3d(-50%, 130%, 0) scale(0.92);
+  bottom: 7svh;
+  transform: translate3d(-50%, 30svh, 0) scale(0.92);
   opacity: 0;
   will-change: transform, opacity;
   pointer-events: auto;
@@ -982,7 +983,7 @@ body.is-loading {
   }
 
   .capability-scroll-section {
-    min-height: 180vh;
+    min-height: 220svh;
   }
 
   .capability-scroll-backdrop {
@@ -991,11 +992,11 @@ body.is-loading {
   }
 
   .capability-scroll-shell {
-    bottom: 20vh;
+    bottom: 16svh;
   }
 
   .member-section {
-    min-height: 180vh;
+    min-height: 150svh;
   }
 
   .member-sticky {
@@ -1003,18 +1004,25 @@ body.is-loading {
   }
 
   .member-backdrop {
-    align-items: flex-start;
-    padding: 2rem 1rem 1rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
   }
 
   .member-backdrop h2 {
     width: 100%;
+    max-width: 7ch;
     font-size: clamp(2.8rem, 12vw, 5rem);
     line-height: 0.94;
   }
 
   .member-stage {
-    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  .member-scroll-card {
+    top: 52svh;
+    bottom: auto;
   }
 
   .member-card {
@@ -1353,7 +1361,7 @@ body.is-loading {
   }
 
   .project-scroll-section {
-    min-height: 320vh;
+    min-height: 360svh;
   }
 
   .project-scroll-sticky {
@@ -1379,15 +1387,31 @@ body.is-loading {
     width: min(76vw, 340px);
   }
 
+  .project-scroll-card {
+    bottom: 8svh;
+    gap: 1rem;
+  }
+
   .project-scroll-copy-box {
-    position: relative;
-    top: auto;
-    left: auto;
-    right: auto;
-    width: min(92vw, 640px);
-    padding: 1.2rem 1.1rem 1.3rem;
+    width: min(88vw, 360px);
+    padding: 1rem 1rem 1.1rem;
     transform: none;
-    margin: 1rem auto 0;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+  }
+
+  .project-scroll-copy-box::after {
+    bottom: -14px;
+    height: 18px;
+  }
+
+  .project-scroll-copy-box h3 {
+    font-size: clamp(1.25rem, 6vw, 1.55rem);
+  }
+
+  .project-scroll-copy-box p {
+    font-size: 0.94rem;
+    line-height: 1.45;
   }
 }
 
@@ -1395,6 +1419,19 @@ body.is-loading {
   .cursor-ring,
   .cursor-dot {
     display: none;
+  }
+
+  .capability-scroll-shell:hover .carousel-row {
+    animation-play-state: running;
+  }
+
+  .carousel-pill:hover,
+  .skill-card:hover {
+    transform: none;
+  }
+
+  .member-card {
+    transition: none;
   }
 }
 

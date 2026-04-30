@@ -29,33 +29,42 @@ export default function MemberSection() {
     let rafId = 0;
     let rotateX = 0;
     let rotateY = 0;
+    const canTilt = window.matchMedia('(pointer:fine)').matches;
 
     const render = () => {
       const rect = section.getBoundingClientRect();
       const scrollable = Math.max(rect.height - window.innerHeight, 1);
       const progress = clamp(-rect.top / scrollable, 0, 1);
-      const intro = clamp(progress / 0.55, 0, 1);
-      const exit = clamp((progress - 0.88) / 0.12, 0, 1);
+      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+      const isCompact = window.matchMedia('(max-width: 760px)').matches;
+      const introStart = isCompact ? 0.22 : 0;
+      const introSpan = isCompact ? 0.24 : 0.55;
+      const exitStart = isCompact ? 0.56 : 0.88;
+      const exitSpan = isCompact ? 0.18 : 0.12;
+      const intro = clamp((progress - introStart) / introSpan, 0, 1);
+      const exit = clamp((progress - exitStart) / exitSpan, 0, 1);
       const introEased = easeOutCubic(intro);
       const exitEased = easeOutCubic(exit);
+      const startOffset = isCompact ? viewportHeight * 0.46 : viewportHeight * 0.3;
+      const exitOffset = isCompact ? viewportHeight * 0.36 : viewportHeight * 0.11;
 
-      let translateY = 112;
+      let translateY = startOffset;
       let scale = 0.95;
       let opacity = 0;
 
-      if (progress <= 1) {
-        translateY = mix(112, 0, introEased);
+      if (progress >= introStart) {
+        translateY = mix(startOffset, 0, introEased);
         scale = mix(0.95, 1, introEased);
         opacity = 1;
       }
 
       if (exit > 0) {
-        translateY = mix(0, -15, exitEased);
+        translateY = mix(0, -exitOffset, exitEased);
         scale = mix(1, 0.99, exitEased);
         opacity = 1;
       }
 
-      shell.style.transform = `translate3d(-50%, ${translateY}%, 0) scale(${scale})`;
+      shell.style.transform = `translate3d(-50%, ${translateY}px, 0) scale(${scale})`;
       shell.style.opacity = String(opacity);
       card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
       rafId = 0;
@@ -85,14 +94,18 @@ export default function MemberSection() {
     render();
     window.addEventListener('scroll', requestRender, { passive: true });
     window.addEventListener('resize', requestRender);
-    card.addEventListener('mousemove', onMove);
-    card.addEventListener('mouseleave', reset);
+    if (canTilt) {
+      card.addEventListener('mousemove', onMove);
+      card.addEventListener('mouseleave', reset);
+    }
 
     return () => {
       window.removeEventListener('scroll', requestRender);
       window.removeEventListener('resize', requestRender);
-      card.removeEventListener('mousemove', onMove);
-      card.removeEventListener('mouseleave', reset);
+      if (canTilt) {
+        card.removeEventListener('mousemove', onMove);
+        card.removeEventListener('mouseleave', reset);
+      }
       if (rafId) {
         window.cancelAnimationFrame(rafId);
       }
