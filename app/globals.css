@@ -460,7 +460,7 @@ body.is-loading {
 .project-scroll-section {
   position: relative;
   width: min(100%, 100vw);
-  min-height: 360vh;
+  min-height: 480vh;
   margin-top: 0;
 }
 

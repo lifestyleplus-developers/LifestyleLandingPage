@@ -45,56 +45,98 @@ function easeOutCubic(value) {
   return 1 - (1 - value) ** 3;
 }
 
+function easeInCubic(value) {
+  return value ** 3;
+}
+
 export default function ProjectScroller() {
   const sectionRef = useRef(null);
   const cardRefs = useRef([]);
+  const backdropRef = useRef(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
+    const getTargetProgress = () => {
+      const rect = section.getBoundingClientRect();
+      const scrollable = Math.max(rect.height - window.innerHeight, 1);
+      return clamp(-rect.top / scrollable, 0, 1);
+    };
+
+    let targetProgress = getTargetProgress();
+    let currentProgress = targetProgress;
     let rafId = 0;
 
     const update = () => {
-      const rect = section.getBoundingClientRect();
-      const scrollable = Math.max(rect.height - window.innerHeight, 1);
-      const progress = clamp(-rect.top / scrollable, 0, 1);
-      const segmentSize = 1 / PROJECTS.length;
+      targetProgress = getTargetProgress();
+      
+      // Smooth interpolation (lerp)
+      const ease = 0.055;
+      currentProgress += (targetProgress - currentProgress) * ease;
+
+      if (Math.abs(targetProgress - currentProgress) < 0.0001) {
+        currentProgress = targetProgress;
+      }
+
+      // Animate the backdrop text opacity and subtle scaling
+      if (backdropRef.current) {
+        let backdropOpacity = 1;
+        if (currentProgress < 0.18) {
+          // Fade in at the start
+          backdropOpacity = clamp(currentProgress / 0.18, 0, 1);
+        } else if (currentProgress > 0.82) {
+          // Fade out at the end
+          backdropOpacity = clamp((1 - currentProgress) / 0.18, 0, 1);
+        }
+        backdropRef.current.style.opacity = String(backdropOpacity);
+        backdropRef.current.style.transform = `scale(${mix(0.98, 1, backdropOpacity)})`;
+      }
+
+      // Map segments: First 25% is empty intro phase, next 75% for 3 cards
+      const segmentSize = 0.25;
       const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
       const isCompact = window.matchMedia('(max-width: 760px)').matches;
       const startOffset = isCompact ? viewportHeight * 0.22 : viewportHeight * 0.34;
-      const exitOffset = isCompact ? viewportHeight * 0.08 : viewportHeight * 0.12;
 
       cardRefs.current.forEach((card, index) => {
         if (!card) return;
 
-        const stepStart = index * segmentSize;
-        const stepEnd = stepStart + segmentSize;
-        const local = clamp((progress - stepStart) / segmentSize, 0, 1);
-        const intro = clamp(local / 0.55, 0, 1);
-        const exit = clamp((local - 0.88) / 0.12, 0, 1);
-        const introEased = easeOutCubic(intro);
-        const exitEased = easeOutCubic(exit);
+        const stepStart = 0.25 + index * 0.25;
+        const stepEnd = stepStart + 0.25;
 
         let translateY = startOffset;
         let scale = 0.95;
         let opacity = 0;
 
-        if (progress >= stepStart && progress <= stepEnd) {
-          translateY = mix(startOffset, 0, introEased);
-          scale = mix(0.95, 1, introEased);
-          opacity = 1;
-        }
-
-        if (exit > 0 && progress <= stepEnd) {
-          translateY = mix(0, -exitOffset, exitEased);
-          scale = mix(1, 0.99, exitEased);
-          opacity = 1;
-        }
-
-        if (progress > stepEnd) {
+        if (currentProgress >= stepStart && currentProgress <= stepEnd) {
+          const local = clamp((currentProgress - stepStart) / 0.25, 0, 1);
+          
+          if (local <= 0.4) {
+            const ratio = local / 0.4;
+            const eased = easeOutCubic(ratio);
+            translateY = mix(startOffset, 0, eased);
+            scale = mix(0.95, 1, eased);
+            opacity = eased;
+          } else if (local <= 0.6) {
+            translateY = 0;
+            scale = 1;
+            opacity = 1;
+          } else {
+            const ratio = (local - 0.6) / 0.4;
+            const eased = easeInCubic(ratio);
+            translateY = mix(0, -startOffset, eased);
+            scale = mix(1, 0.95, eased);
+            opacity = 1 - eased;
+          }
+        } else if (currentProgress > stepEnd) {
           translateY = -startOffset;
-          scale = 1;
+          scale = 0.95;
+          opacity = 0;
+        } else {
+          // currentProgress < stepStart (including the 25% intro phase)
+          translateY = startOffset;
+          scale = 0.95;
           opacity = 0;
         }
 
@@ -103,7 +145,11 @@ export default function ProjectScroller() {
         card.style.zIndex = String(index + 2);
       });
 
-      rafId = 0;
+      if (currentProgress !== targetProgress) {
+        rafId = window.requestAnimationFrame(update);
+      } else {
+        rafId = 0;
+      }
     };
 
     const requestUpdate = () => {
@@ -128,7 +174,7 @@ export default function ProjectScroller() {
   return (
     <section id="projects" className="project-scroll-section" ref={sectionRef}>
       <div className="project-scroll-sticky">
-        <div className="project-scroll-backdrop" aria-hidden="true">
+        <div className="project-scroll-backdrop" aria-hidden="true" ref={backdropRef}>
           <h2>We&apos;ve built things that started just like your idea</h2>
         </div>
 
