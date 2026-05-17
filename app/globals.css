@@ -699,7 +699,7 @@ body.is-loading {
 .capability-scroll-section {
   position: relative;
   width: min(100%, 100vw);
-  min-height: 220vh;
+  min-height: 360vh;
   margin-top: 0;
 }
 
@@ -758,7 +758,7 @@ body.is-loading {
 .capability-scroll-shell {
   position: absolute;
   left: 50%;
-  bottom: 22svh;
+  bottom: 39svh;
   width: 100%;
   transform: translate3d(-50%, 28svh, 0) scale(0.92);
   opacity: 0;
@@ -779,6 +779,7 @@ body.is-loading {
   padding-right: 1.25rem;
   animation: carousel-move 34s linear infinite;
   will-change: transform;
+  flex-shrink: 0;
 }
 
 .capability-scroll-shell:hover .carousel-row {
