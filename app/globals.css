@@ -817,7 +817,7 @@ body.is-loading {
 .member-section {
   position: relative;
   width: min(100%, 100vw);
-  min-height: 220vh;
+  min-height: 360vh;
   margin-top: 0;
 }
 
@@ -868,7 +868,7 @@ body.is-loading {
 .member-scroll-card {
   position: absolute;
   left: 50%;
-  bottom: 7svh;
+  bottom: 16svh;
   transform: translate3d(-50%, 30svh, 0) scale(0.92);
   opacity: 0;
   will-change: transform, opacity;
