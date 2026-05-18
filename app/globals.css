@@ -988,16 +988,16 @@ body.is-loading {
   }
 
   .capability-scroll-backdrop {
-    gap: 1.3rem;
-    padding: 3rem 1rem 0;
+    gap: 1rem;
+    padding: 2.25rem 1rem 0;
   }
 
   .capability-scroll-shell {
-    bottom: 16svh;
+    bottom: 28svh;
   }
 
   .member-section {
-    min-height: 150svh;
+    min-height: 185svh;
   }
 
   .member-sticky {
@@ -1007,7 +1007,7 @@ body.is-loading {
   .member-backdrop {
     align-items: center;
     justify-content: center;
-    padding: 0 1rem;
+    padding: 0 1rem 18svh;
   }
 
   .member-backdrop h2 {
@@ -1022,17 +1022,17 @@ body.is-loading {
   }
 
   .member-scroll-card {
-    top: 52svh;
-    bottom: auto;
+    top: auto;
+    bottom: 10svh;
   }
 
   .member-card {
-    width: min(94vw, 560px);
+    width: min(92vw, 560px);
   }
 
   .member-card-shadow {
-    width: min(72vw, 420px);
-    transform: translate(-50%, 112px);
+    width: min(74vw, 420px);
+    transform: translate(-50%, 100px);
   }
 }
 
@@ -1370,8 +1370,8 @@ body.is-loading {
   }
 
   .project-scroll-backdrop {
-    align-items: flex-start;
-    padding: 2rem 1rem 1rem;
+    align-items: center;
+    padding: 0 1rem 10svh;
   }
 
   .project-scroll-backdrop h2 {

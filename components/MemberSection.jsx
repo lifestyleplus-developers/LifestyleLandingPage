@@ -78,7 +78,7 @@ export default function MemberSection() {
       // Animate card container
       const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
       const isCompact = window.matchMedia('(max-width: 760px)').matches;
-      const startOffset = isCompact ? viewportHeight * 0.46 : viewportHeight * 0.58;
+      const startOffset = isCompact ? viewportHeight * 0.32 : viewportHeight * 0.58;
 
       let translateY = startOffset;
       let scale = 0.95;
